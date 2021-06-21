@@ -8,5 +8,4 @@ Gem::Specification.new do |s|
     s.homepage    = 'https://rubygems.org/gems/ip3country'
     s.license     = 'ISC'
     s.files       = Dir['lib/**/*']
-    s.add_development_dependency "bundler", "~> 2.1"
 end

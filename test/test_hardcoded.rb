@@ -2,7 +2,7 @@ require 'minitest'
 require 'minitest/autorun'
 require 'country_lookup'
 
-class TestStatsig < Minitest::Test
+class TestHardcoded < Minitest::Test
 
   def before_setup
     super
@@ -58,6 +58,5 @@ class TestStatsig < Minitest::Test
     assert (CountryLookup.lookup_ip_string('25.67.94.211') == 'GB')
     assert (CountryLookup.lookup_ip_string('27.67.94.211') == 'VN')
     assert (CountryLookup.lookup_ip_string('27.62.93.211') == 'IN')
-
   end
 end
