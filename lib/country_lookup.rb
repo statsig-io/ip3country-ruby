@@ -2,6 +2,9 @@ module CountryLookup
 
   class Lookup
     def initialize
+      @country_codes = Array.new
+      @ip_ranges = Array.new
+      @country_table = Array.new
       initialize_from_file
     end
 
@@ -23,7 +26,7 @@ module CountryLookup
     end
 
     def lookup_ip_number(ip_number)
-      index = self.binary_search(ip_number)
+      index = binary_search(ip_number)
       cc = @country_codes[index]
       if cc == '--'
         return nil
@@ -55,12 +58,9 @@ module CountryLookup
     # 242.n2.n3.c: if n >= 240 but < 65536. n2 being lower order byte
     # 243.n2.n3.n4.c: if n >= 65536. n2 being lower order byte
     def initialize_from_file
-      unless @country_codes.nil? || @country_codes.length == 0
+      unless @country_codes.length == 0
         return
       end
-      @country_codes = Array.new
-      @ip_ranges = Array.new
-      @country_table = Array.new
 
       File.open(File.dirname(__FILE__) + '/ip_supalite.table') do |file|
         until file.eof?
