@@ -2,6 +2,9 @@ module CountryLookup
 
   class Lookup
     def initialize
+      if !@initialize_bg_thread.nil?
+        Thread.kill(@initialize_bg_thread)
+      end
       @country_codes = Array.new
       @ip_ranges = Array.new
       @country_table = Array.new
@@ -101,6 +104,14 @@ module CountryLookup
   def self.initialize
     @lookup = Lookup.new
     return nil
+  end
+
+  def self.initializeAsync
+    @initialize_bg_thread = Thread.new { self.initialize }
+  end
+
+  def self.is_ready_for_lookup
+    !@lookup.nil?
   end
 
   def self.lookup_ip_string(ip_string)
