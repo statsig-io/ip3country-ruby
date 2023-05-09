@@ -100,13 +100,13 @@ module CountryLookup
 
   def self.initialize
     if !@initialize_bg_thread.nil?
-      Thread.kill(@initialize_bg_thread)
+      @initialize_bg_thread.kill.join
     end
     @lookup = Lookup.new
     return nil
   end
 
-  def self.initializeAsync
+  def self.initialize_async
     if !@initialize_bg_thread.nil? && @initialize_bg_thread.alive?
       @initialize_bg_thread.kill.join
     end
