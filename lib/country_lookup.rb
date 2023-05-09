@@ -120,14 +120,14 @@ module CountryLookup
 
   def self.lookup_ip_string(ip_string)
     if @lookup.nil?
-      @lookup = Lookup.new
+      initialize
     end
     @lookup.lookup_ip_string(ip_string)
   end
 
   def self.lookup_ip_number(ip_number)
     if @lookup.nil?
-      @lookup = Lookup.new
+      initialize
     end
     @lookup.lookup_ip_number(ip_number)
   end
