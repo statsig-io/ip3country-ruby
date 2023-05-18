@@ -133,7 +133,7 @@ module CountryLookup
     @lookup.lookup_ip_number(ip_number)
   end
 
-  def teardown
+  def self.teardown
     @lookup = nil
   end
 end
