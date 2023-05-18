@@ -99,22 +99,41 @@ module CountryLookup
   end
 
   def self.initialize
-    @lookup = Lookup.new
+    if !@initialize_bg_thread.nil? && @initialize_bg_thread.alive?
+      @initialize_bg_thread.join
+    else
+      @lookup = Lookup.new
+    end
     return nil
   end
 
+  def self.initialize_async
+    if !@initialize_bg_thread.nil? && @initialize_bg_thread.alive?
+      return @initialize_bg_thread
+    end
+    @initialize_bg_thread = Thread.new { @lookup = Lookup.new }
+    return @initialize_bg_thread
+  end
+
+  def self.is_ready_for_lookup
+    !@lookup.nil?
+  end
+
   def self.lookup_ip_string(ip_string)
-    if @lookup.nil?
-      @lookup = Lookup.new
+    if !is_ready_for_lookup
+      initialize
     end
     @lookup.lookup_ip_string(ip_string)
   end
 
   def self.lookup_ip_number(ip_number)
-    if @lookup.nil?
-      @lookup = Lookup.new
+    if !is_ready_for_lookup
+      initialize
     end
     @lookup.lookup_ip_number(ip_number)
   end
 
+  def teardown
+    @lookup = nil
+  end
 end
